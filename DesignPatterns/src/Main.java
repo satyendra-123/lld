@@ -1,3 +1,16 @@
+import java.util.HashMap;
+
+import com.scaler.learn.factory.abstrct.example1.ChairFurniture;
+import com.scaler.learn.factory.abstrct.example1.Furniture;
+import com.scaler.learn.factory.abstrct.example1.FurnitureShop;
+import com.scaler.learn.factory.abstrct.example1.ModernFactory;
+import com.scaler.learn.factory.abstrct.example1.TableFurniture;
+import com.scaler.learn.factory.method.example1.A;
+import com.scaler.learn.factory.method.example1.B;
+import com.scaler.learn.factory.method.example1.C;
+import com.scaler.learn.prototype.MeritStudent;
+import com.scaler.learn.prototype.Registry;
+import com.scaler.learn.prototype.Student;
 import com.scaler.learn.singleton.Singleton;
 import com.scaler.learn.singleton.SingletonMultiThread;
 
@@ -6,7 +19,10 @@ public class Main {
     //testSingleton();
     //testSingletonMultiThreaded();
     //testSingletonMultiThreadedV2();
-    testSingletonMultiThreadedV3();
+    //testSingletonMultiThreadedV3();
+   // testProtoType();
+    //testFactoryMethod();
+    testAbstractFactoryPattern();
   }
 
   //fails for multi Threads
@@ -75,4 +91,67 @@ public class Main {
     t1.start();
     t2.start();
   }
+
+
+  //Builder Pattern Tester
+
+
+  //Prototype Pattern Tester
+  private static void testProtoType(){
+    Registry registry = Registry.getInstance();
+    HashMap<String, Student> map = registry.createRegistry();
+    Student st = new Student();
+    st.setInstructor("sumeet");
+    map.put("student", st);
+
+    MeritStudent mst = new MeritStudent();
+    mst.setInstructor("sumeet");
+    mst.setScholarship(true);
+    map.put("merit-student", mst);
+
+
+    Student s2 = map.get("student").clone();
+    Student s3 = map.get("student").clone();
+    Student s4 = map.get("student").clone();
+
+    System.out.println(System.identityHashCode(s2)+" "+System.identityHashCode(s3)+ " " +System.identityHashCode(s4));
+
+    assert(s2.getInstructor()).equals(s3.getInstructor());
+    assert(s3.getInstructor()).equals(s4.getInstructor());
+
+  }
+
+  /**
+   * factory method
+   */
+  private static void testFactoryMethod(){
+      //here we can inject any type of dependency based on the object
+     //it is ocp but we usually inject depdency in spring kind of frameworks by identifying the class
+    A a = new B();
+    a.doSomething();
+    a = new C();
+    a.doSomething();
+  }
+
+
+  private static void testAbstractFactoryPattern(){
+    //here we can inject any type of dependency based on the object
+    //it is ocp but we usually inject depdency in spring kind of frameworks by identifying the class
+    //user wants to buy a modern chair from a furniture shop
+    ModernFactory mf = new ModernFactory();
+    FurnitureShop fs = new ChairFurniture();
+    fs.setFactory(mf);
+    Furniture furniture = fs.getFurniture();
+    furniture.myUse();
+    System.out.println(furniture.getName());
+
+
+    //modern table
+    fs = new TableFurniture();
+    fs.setFactory(mf);
+    furniture = fs.getFurniture();
+    furniture.myUse();
+    System.out.println(furniture.getName());
+  }
+
 }
