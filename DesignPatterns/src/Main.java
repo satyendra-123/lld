@@ -1,5 +1,8 @@
 import java.util.HashMap;
 
+import com.scaler.learn.adapter.BankApi;
+import com.scaler.learn.adapter.PhonePe;
+import com.scaler.learn.adapter.YesBankAdapter;
 import com.scaler.learn.factory.abstrct.example1.ChairFurniture;
 import com.scaler.learn.factory.abstrct.example1.Furniture;
 import com.scaler.learn.factory.abstrct.example1.FurnitureShop;
@@ -153,5 +156,14 @@ public class Main {
     furniture.myUse();
     System.out.println(furniture.getName());
   }
+
+
+  //adapter
+  private void testAdapter(){
+    BankApi yb = new YesBankAdapter();
+    PhonePe p = new PhonePe(yb);
+    p.checkBalance();
+  }
+
 
 }
