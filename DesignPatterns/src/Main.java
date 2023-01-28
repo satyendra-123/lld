@@ -3,6 +3,10 @@ import java.util.HashMap;
 import com.scaler.learn.adapter.BankApi;
 import com.scaler.learn.adapter.PhonePe;
 import com.scaler.learn.adapter.YesBankAdapter;
+import com.scaler.learn.decorator.ButterscotchScoop;
+import com.scaler.learn.decorator.Cone;
+import com.scaler.learn.decorator.IceCream;
+import com.scaler.learn.decorator.VanillaScoop;
 import com.scaler.learn.factory.abstrct.example1.ChairFurniture;
 import com.scaler.learn.factory.abstrct.example1.Furniture;
 import com.scaler.learn.factory.abstrct.example1.FurnitureShop;
@@ -11,6 +15,9 @@ import com.scaler.learn.factory.abstrct.example1.TableFurniture;
 import com.scaler.learn.factory.method.example1.A;
 import com.scaler.learn.factory.method.example1.B;
 import com.scaler.learn.factory.method.example1.C;
+import com.scaler.learn.observer.Amazon;
+import com.scaler.learn.observer.EmailService;
+import com.scaler.learn.observer.InventoryService;
 import com.scaler.learn.prototype.MeritStudent;
 import com.scaler.learn.prototype.Registry;
 import com.scaler.learn.prototype.Student;
@@ -25,7 +32,9 @@ public class Main {
     //testSingletonMultiThreadedV3();
    // testProtoType();
     //testFactoryMethod();
-    testAbstractFactoryPattern();
+   // testAbstractFactoryPattern();
+   // testDecorator();
+    testObserver();
   }
 
   //fails for multi Threads
@@ -165,5 +174,20 @@ public class Main {
     p.checkBalance();
   }
 
+  //test decorator
+  private static void testDecorator(){
+    IceCream iceCream = new Cone();
+    VanillaScoop vs = new VanillaScoop(iceCream);
+    ButterscotchScoop bs = new ButterscotchScoop(vs);
+    System.out.println(bs.getPrice());
+    System.out.println(bs.getDescription());
+  }
 
+  //test observer
+  private static void testObserver(){
+    Amazon amazon = Amazon.getAmazon();
+    new EmailService();
+    new InventoryService();
+    amazon.placeOrder();
+  }
 }
